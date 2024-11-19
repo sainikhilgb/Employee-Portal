@@ -1,0 +1,95 @@
+@page "{id:int}"
+@model EmployeePortal.Pages.Registration.EditModel
+@{
+    ViewData["Title"] = "Edit Employee";
+}
+
+<h2>Edit Employee</h2>
+
+<form method="post">
+    <div class="input-box">
+        <label for="EmployeeId">Employee ID</label>
+        <input type="text" id="EmployeeId" name="Employee.EmployeeId" class="form-control" value="@Model.Employee.EmployeeId" />
+    </div>
+
+    <div class="input-box">
+        <label for="FirstName">First Name</label>
+        <input type="text" id="FirstName" name="Employee.FirstName" class="form-control" value="@Model.Employee.FirstName" />
+    </div>
+
+    <div class="input-box">
+        <label for="LastName">Last Name</label>
+        <input type="text" id="LastName" name="Employee.LastName" class="form-control" value="@Model.Employee.LastName" />
+    </div>
+
+    <div class="input-box">
+        <label for="Email">Email</label>
+        <input type="email" id="Email" name="Employee.Email" class="form-control" value="@Model.Employee.Email" />
+    </div>
+
+    <div class="input-box">
+        <label for="Phone">Phone</label>
+        <input type="text" id="Phone" name="Employee.Phone" class="form-control" value="@Model.Employee.Phone" />
+    </div>
+
+    <div class=" input-box">
+    <label class="col-6" for="Grade">Grade</label>
+    <select name="Employee.Grade"  asp-items="Model.GradeOptions"></select>
+    <span asp-validation-for="Employee.Grade" class="text-danger"></span>
+ </div>
+
+   <div class=" input-box">
+    <label class="col-6" for="BU">BU</label>
+    <select name="Employee.BU"  asp-items="Model.BUOptions"></select>
+    <span asp-validation-for="Employee.BU" class="text-danger"></span>
+    </div>
+
+    <div class="input-box">
+        <label for="DateOfHire">Date of Hire</label>
+        <input type="date" id="DateOfHire" name="Employee.DateOfHire" class="form-control" value="@Model.Employee.DateOfHire.ToString("yyyy-MM-dd")" />
+    </div>
+
+    <div class="input-box">
+        <label for="ProjectCode">Project Code</label>
+        <select asp-for="Employee.ProjectCode" asp-items="Model.ProjectCodeOptions" class="form-control">
+            <option value="">-- Select Project Code --</option>
+        </select>
+        <span asp-validation-for="Employee.ProjectCode" class="text-danger"></span>
+    </div>
+
+    <div class="input-box">
+        <label for="ProjectName">Project Name</label>
+        <select asp-for="Employee.ProjectName" asp-items="Model.ProjectNameOptions" class="form-control">
+            <option value="">-- Select Project Name --</option>
+        </select>
+        <span asp-validation-for="Employee.ProjectName" class="text-danger"></span>
+    </div>
+
+    <div class="input-box">
+        <label for="PODName">POD Name</label>
+        <select asp-for="Employee.PODName" asp-items="Model.PODNameOptions" class="form-control">
+            <option value="">-- Select POD Name --</option>
+        </select>
+        <span asp-validation-for="Employee.PODName" class="text-danger"></span>
+    </div>
+
+     <div class="input-box">
+        <label for="StartDate">Start Date</label>
+        <input asp-for="Employee.StartDate" type="date" class="form-control" />
+        <span asp-validation-for="Employee.StartDate" class="text-danger"></span>
+    </div>
+
+    <div class="input-box">
+        <label for="EndDate">End Date</label>
+        <input asp-for="Employee.EndDate" type="date" class="form-control" />
+        <span asp-validation-for="Employee.EndDate" class="text-danger"></span>
+    </div>
+
+
+    <div class="input-box">
+        <button type="submit" class="btn btn-primary">Save Changes</button>
+        <a href="@Url.Page("/Registration/EmployeeList")" class="btn btn-secondary">Back to Employee List</a>
+    </div>
+</form>
+
+

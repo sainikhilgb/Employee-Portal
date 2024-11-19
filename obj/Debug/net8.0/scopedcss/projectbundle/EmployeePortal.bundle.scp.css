@@ -1,0 +1,74 @@
+/* _content/EmployeePortal/Pages/Shared/_Layout.cshtml.rz.scp.css */
+/* Please see documentation at https://learn.microsoft.com/aspnet/core/client-side/bundling-and-minification
+for details on configuring this project to bundle and minify static web assets. */
+
+/* a.navbar-brand {
+  white-space: normal;
+  text-align: center;
+  word-break: break-all;
+} */
+
+a[b-jpb2zu6bct] {
+  color: #0077cc;
+}
+
+.btn-primary[b-jpb2zu6bct] {
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
+}
+
+/* .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
+} */
+
+.border-top[b-jpb2zu6bct] {
+  border-top: 1px solid #e5e5e5;
+}
+.border-bottom[b-jpb2zu6bct] {
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.box-shadow[b-jpb2zu6bct] {
+  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+
+button.accept-policy[b-jpb2zu6bct] {
+  font-size: 1rem;
+  line-height: inherit;
+}
+
+.footer[b-jpb2zu6bct] {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  white-space: nowrap;
+  line-height: 60px;
+}
+body[b-jpb2zu6bct] {margin:0;}
+
+.icon-bar[b-jpb2zu6bct] {
+  width: 100%;
+  background-color: #555;
+  overflow: auto;
+}
+
+.icon-bar a[b-jpb2zu6bct] {
+  float: left;
+  width: 20%;
+  text-align: center;
+  padding: 12px 0;
+  transition: all 0.3s ease;
+  color: white;
+  font-size: 26px;
+}
+
+.icon-bar a:hover[b-jpb2zu6bct] {
+  background-color: #000;
+}
+
+.active[b-jpb2zu6bct] {
+  background-color: #04AA6D;
+}

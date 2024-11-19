@@ -1,0 +1,64 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+.wrapper{
+  position: relative;
+  
+  width: 100%;
+  background: #fff;
+  padding: 34px;
+  border-radius: 6px;
+  box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+}
+form .input-box select   {
+  height: 100%;
+  width: 80%;
+  outline-width: 10;
+  padding: 0 15px;
+  font-size: 17px;
+  font-weight: 400;
+  color: #333;
+  border: 1.5px solid #C7BEBE;
+  border-bottom-width: 3px;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+}
+form .input-box input   {
+  height: 100%;
+  width: 80%;
+  outline-width: 10;
+  padding: 0 15px;
+  font-size: 17px;
+  font-weight: 400;
+  color: #333;
+  border: 1.5px solid #C7BEBE;
+  border-bottom-width: 3px;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+}
+form .input-box button{
+  margin:5px;
+}
+form .input-box a{
+  margin:5px;
+}
