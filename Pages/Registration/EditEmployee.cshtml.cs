@@ -18,6 +18,7 @@ namespace EmployeePortal.Pages.Registration
         public List<SelectListItem> ProjectCodeOptions { get; set; }
         public List<SelectListItem> ProjectNameOptions { get; set; }
         public List<SelectListItem> PODNameOptions { get; set; }
+        public List<SelectListItem> OffshoreCityOptions { get; set; }
 
         private readonly string employeeFilePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "EmployeeData.xlsx");
     
@@ -57,6 +58,8 @@ namespace EmployeePortal.Pages.Registration
                     worksheet.Cells[row + 1, 11].Value = Employee.PODName;
                     worksheet.Cells[row + 1, 12].Value = Employee.StartDate.ToString("yyyy-MM-dd");
                     worksheet.Cells[row + 1, 13].Value = Employee.EndDate.ToString("yyyy-MM-dd");
+                    worksheet.Cells[row + 1, 14].Value = Employee.Location;
+                    worksheet.Cells[row + 1, 15].Value = Employee.OffshoreCity;
                 }
 
                 package.Save();
@@ -89,6 +92,8 @@ namespace EmployeePortal.Pages.Registration
                         PODName = worksheet.Cells[row, 11].Text,
                         StartDate = DateTime.Parse(worksheet.Cells[row, 12].Text),
                         EndDate = DateTime.Parse(worksheet.Cells[row, 13].Text),
+                        Location = worksheet.Cells[row, 14].Text,
+                        OffshoreCity = worksheet.Cells[row, 15].Text,
 
                     };
                 }
@@ -115,6 +120,7 @@ namespace EmployeePortal.Pages.Registration
             ProjectCodeOptions = new List<SelectListItem>();
             ProjectNameOptions = new List<SelectListItem>();
             PODNameOptions = new List<SelectListItem>();
+            OffshoreCityOptions = new List<SelectListItem>();
 
             if (System.IO.File.Exists(employeeFilePath))
             {
@@ -132,6 +138,7 @@ namespace EmployeePortal.Pages.Registration
                             var projectcode = worksheet.Cells[row, 3]?.Text?.Trim();
                             var projectname = worksheet.Cells[row, 4]?.Text?.Trim();
                             var PODname = worksheet.Cells[row, 5]?.Text?.Trim();
+                            var offshore = worksheet.Cells[row, 6]?.Text?.Trim();
 
                             if (!string.IsNullOrWhiteSpace(grade))
                             {
@@ -153,6 +160,10 @@ namespace EmployeePortal.Pages.Registration
                             if (!string.IsNullOrWhiteSpace(PODname))
                             {
                                 PODNameOptions.Add(new SelectListItem { Value = PODname, Text = PODname });
+                            }
+                            if (!string.IsNullOrWhiteSpace(offshore))
+                            {
+                                OffshoreCityOptions.Add(new SelectListItem { Value = offshore, Text = offshore });
                             }
                         }
                     }

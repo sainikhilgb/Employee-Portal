@@ -47,6 +47,8 @@ namespace EmployeePortal.Pages.Registration
                                 PODName = worksheet.Cells[row, 11].Text,
                                 StartDate = DateTime.Parse(worksheet.Cells[row, 12].Text),
                                 EndDate = DateTime.Parse(worksheet.Cells[row, 13].Text),
+                                Location = worksheet.Cells[row, 14].Text,
+                                OffshoreCity = worksheet.Cells[row, 15].Text,
                             });
 
                             row++; // Move to the next row
@@ -61,7 +63,7 @@ namespace EmployeePortal.Pages.Registration
             return Employees;
         }
 
-public Employee Employee { get; set; }
+
         
 
        public async Task<IActionResult> OnPostDeleteAsync(int id)

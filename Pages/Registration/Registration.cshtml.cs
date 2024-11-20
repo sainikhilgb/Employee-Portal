@@ -18,6 +18,7 @@ namespace EmployeePortal.Pages.Registration
         public List<SelectListItem> ProjectCodeOptions { get; set; }
         public List<SelectListItem> ProjectNameOptions { get; set; }
         public List<SelectListItem> PODNameOptions { get; set; }
+        public List<SelectListItem> OffShoreCityOptions { get; set; }
 
         // OnGet to load dropdown options and initialize the form
         public IActionResult OnGet()
@@ -49,6 +50,8 @@ namespace EmployeePortal.Pages.Registration
                 if (worksheet == null)
                 {
                     worksheet = package.Workbook.Worksheets.Add("Employees");
+                     
+                   
                     // Create header row if it's a new file
                     worksheet.Cells[1, 1].Value = "EmployeeId";
                     worksheet.Cells[1, 2].Value = "FirstName";
@@ -63,6 +66,9 @@ namespace EmployeePortal.Pages.Registration
                     worksheet.Cells[1, 11].Value = "PODName";
                     worksheet.Cells[1, 12].Value = "SatrtDate";
                     worksheet.Cells[1, 13].Value = "EndDate";
+                    worksheet.Cells[1, 14].Value = "Location";
+                    worksheet.Cells[1, 15].Value = "OffshoreCity";
+                    
                 }
 
                 var rowCount = worksheet.Dimension?.Rows ?? 1; // Get current row count
@@ -82,6 +88,8 @@ namespace EmployeePortal.Pages.Registration
                 worksheet.Cells[rowCount + 1, 11].Value = Employee.PODName;
                 worksheet.Cells[rowCount + 1, 12].Value = Employee.StartDate.ToString("yyyy-MM-dd");
                 worksheet.Cells[rowCount + 1, 13].Value = Employee.EndDate.ToString("yyyy-MM-dd");
+                worksheet.Cells[rowCount + 1, 14].Value = Employee.Location;
+                worksheet.Cells[rowCount + 1, 15].Value = Employee.OffshoreCity;
                 
 
                 // Save the file
@@ -100,6 +108,7 @@ namespace EmployeePortal.Pages.Registration
             ProjectCodeOptions = new List<SelectListItem>();
             ProjectNameOptions = new List<SelectListItem>();
             PODNameOptions = new List<SelectListItem>();
+            OffShoreCityOptions = new List<SelectListItem>();
 
             if (System.IO.File.Exists(employeeFilePath))
             {
@@ -123,6 +132,7 @@ namespace EmployeePortal.Pages.Registration
                             var projectcode = worksheet.Cells[row, 3]?.Text?.Trim();
                             var projectname = worksheet.Cells[row, 4]?.Text?.Trim();
                             var PODname = worksheet.Cells[row, 5]?.Text?.Trim();
+                            var Offshore = worksheet.Cells[row, 6]?.Text?.Trim();
 
                             if (!string.IsNullOrWhiteSpace(grade))
                             {
@@ -144,6 +154,10 @@ namespace EmployeePortal.Pages.Registration
                             if (!string.IsNullOrWhiteSpace(PODname))
                             {
                                 PODNameOptions.Add(new SelectListItem { Value = PODname, Text = PODname });
+                            }
+                             if (!string.IsNullOrWhiteSpace(Offshore))
+                            {
+                                OffShoreCityOptions.Add(new SelectListItem { Value = Offshore, Text = Offshore });
                             }
                         }
                     }

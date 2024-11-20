@@ -28,15 +28,14 @@ namespace EmployeePortal.Models
         [DataType(DataType.Date)]
         [DisplayName("Date Of Hire")]
          public DateTime DateOfHire {get; set;}
+         [DisplayName("Project Code")]
          public int ProjectCode {get; set;}
 
-         [Required(ErrorMessage = "Please enter your Project name")]
-        [StringLength(50)]
+         [Required(ErrorMessage = "Please Select the Project name")]
         [DisplayName("Project name")]
         public string ProjectName {get; set;}
 
-         [Required(ErrorMessage = "Please enter your POD name")]
-        [StringLength(50)]
+         [Required(ErrorMessage = "Please Select the POD name")]
         [DisplayName("POD name")]
         public string PODName {get; set;}
 
@@ -49,6 +48,10 @@ namespace EmployeePortal.Models
         [DataType(DataType.Date)]
         [DisplayName("End date")]
          public DateTime EndDate {get; set;}
+         [Required(ErrorMessage = "Please select Onshore or Offshore")]
+         public string Location {get; set;}
+         [DisplayName("Offshore City")]
+         public string OffshoreCity {get; set;}
 
     }
 

@@ -62,3 +62,12 @@ form .input-box button{
 form .input-box a{
   margin:5px;
 }
+
+
+.scrollable {
+  overflow: auto; /* Enables both horizontal and vertical scrolling */
+  
+  max-height: 600px; /* Optional: Limit vertical height */
+  max-width: 100%; /* Optional: Limit horizontal width */
+  border: 1px solid #121111; /* Optional: Add a border for clarity */
+}

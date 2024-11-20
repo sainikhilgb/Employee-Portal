@@ -6,7 +6,7 @@
 
 <h2>Register New Employee</h2>
 
-<form method="post">
+<form method="post" onsubmit="return validateAndSubmit()">
     <div class="input-box">
         <label for="FirstName">First Name</label>
         <input asp-for="Employee.FirstName" class="form-control" />
@@ -77,7 +77,22 @@
         <span asp-validation-for="Employee.PODName" class="text-danger"></span>
     </div>
 
-     <div class="input-box">
+    <div class="input-box">
+        <label for="location">Location</label>
+        <select id="location" asp-for="Employee.Location" class="form-control">
+            <option value="onshore">onshore</option>
+            <option value="offshore">offshore</option>
+        </select>
+    </div>
+
+    <div class="input-box">
+       <label for="offshore-city" id="offshore-label" class="hidden">Select Offshore City:</label>
+       <select id="offshore-city" asp-for="Employee.OffshoreCity" asp-items="Model.OffShoreCityOptions" class="hidden form-control">
+           <option value="">-- Select City --</option>
+       </select>
+    </div>
+
+    <div class="input-box">
         <label for="StartDate">Start Date</label>
         <input asp-for="Employee.StartDate" type="date" class="form-control" />
         <span asp-validation-for="Employee.StartDate" class="text-danger"></span>
@@ -92,3 +107,41 @@
     <button type="submit" class="btn btn-primary">Register</button>
     <a asp-page="/Registration/EmployeeList" class="btn btn-secondary">Back to List</a>
 </form>
+
+<script>
+    // Toggle visibility of the "Offshore City" dropdown based on location selection
+    function toggleDropdown() {
+        const locationDropdown = document.getElementById('location');
+        const offshoreCityDropdown = document.getElementById('offshore-city');
+        const offshoreLabel = document.getElementById('offshore-label');
+
+        if (locationDropdown.value === 'offshore') {
+            offshoreCityDropdown.classList.remove('hidden');
+            offshoreLabel.classList.remove('hidden');
+        } else {
+            offshoreCityDropdown.classList.add('hidden');
+            offshoreLabel.classList.add('hidden');
+        }
+    }
+
+    // Validate form submission based on the location selected
+    function validateAndSubmit() {
+        const locationDropdown = document.getElementById('location');
+        const offshoreCityDropdown = document.getElementById('offshore-city');
+
+        // If no location is selected, prevent submission
+        if (locationDropdown.value === '') {
+            alert('Please select a location.');
+            return false; // Prevent form submission
+        }
+
+        // If Offshore is selected, validate the city selection
+        if (locationDropdown.value === 'offshore' && offshoreCityDropdown.value === '') {
+            alert('Please select a city for offshore.');
+            return false; // Prevent form submission
+        }
+
+        // If Onshore is selected, no need to check city, allow form submission
+        return true;
+    }
+</script>

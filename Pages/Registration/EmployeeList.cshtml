@@ -5,7 +5,7 @@
 }
 
 <h2>Employee List</h2>
-
+<div class="scrollable">
 <table class="table">
     <thead>
         <tr>
@@ -19,8 +19,11 @@
             <th>Date of Hire</th>
             <th>Project Code</th>
             <th>Project Name</th>
+            <th>POD Name</th>
             <th>Start Date</th>
             <th>End Date</th>
+            <th>Location</th>
+            <th>Offshore City</th>
             <th>Actions</th>
         </tr>
     </thead>
@@ -38,8 +41,11 @@
                 <td>@employee.DateOfHire.ToShortDateString()</td>
                 <td>@employee.ProjectCode</td>
                 <td>@employee.ProjectName</td>
+                <td>@employee.PODName</td>
                 <td>@employee.StartDate.ToShortDateString()</td>
                 <td>@employee.EndDate.ToShortDateString()</td>
+                <td>@employee.Location</td>
+                <td>@employee.OffshoreCity</td>
                 <td>
                     <!-- Edit Button (redirects to an edit page or opens a modal) -->
                      <a asp-page="/Registration/EditEmployee" asp-route-id="@employee.EmployeeId" class="btn btn-primary">Edit</a>
@@ -54,6 +60,7 @@
         }
     </tbody>
 </table>
+</div>
 
 <!-- Button to add a new employee (this can redirect to the registration form) -->
 <a href="@Url.Page("/Registration/Registration")" class="btn btn-success">Add New Employee</a>

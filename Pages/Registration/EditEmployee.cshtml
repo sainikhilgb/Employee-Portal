@@ -72,6 +72,20 @@
         </select>
         <span asp-validation-for="Employee.PODName" class="text-danger"></span>
     </div>
+    <div class="input-box">
+        <label for="location">Location</label>
+        <select id="location" asp-for="Employee.Location" class="form-control">
+            <option value="onshore">onshore</option>
+            <option value="offshore">offshore</option>
+        </select>
+    </div>
+
+    <div class="input-box">
+       <label for="offshore-city" id="offshore-label" class="hidden">Select Offshore City:</label>
+       <select id="offshore-city" asp-for="Employee.OffshoreCity" asp-items="Model.OffshoreCityOptions" class="hidden form-control">
+           <option value="">-- Select City --</option>
+       </select>
+    </div>
 
      <div class="input-box">
         <label for="StartDate">Start Date</label>
