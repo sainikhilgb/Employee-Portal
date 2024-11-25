@@ -19,6 +19,8 @@ namespace EmployeePortal.Pages.Registration
         public List<SelectListItem> ProjectNameOptions { get; set; }
         public List<SelectListItem> PODNameOptions { get; set; }
         public List<SelectListItem> OffShoreCityOptions { get; set; }
+        private Dictionary<string, string> projectCodeToNameMapping = new Dictionary<string, string>();
+       
 
         // OnGet to load dropdown options and initialize the form
         public IActionResult OnGet()
@@ -39,19 +41,19 @@ namespace EmployeePortal.Pages.Registration
             {
                 // Reload dropdown options if validation fails
                 LoadDropdownOptions();
+
                 return Page();
             }
 
             // Ensure the employee Excel file exists, or create it if not
             var isNewFile = !System.IO.File.Exists(employeeFilePath);
-            using (var package = new ExcelPackage(new FileInfo(employeeFilePath)))
-            {
+             var package = new ExcelPackage(new FileInfo(employeeFilePath));
+            
                 var worksheet = package.Workbook.Worksheets["Employees"];
                 if (worksheet == null)
                 {
                     worksheet = package.Workbook.Worksheets.Add("Employees");
-                     
-                   
+
                     // Create header row if it's a new file
                     worksheet.Cells[1, 1].Value = "EmployeeId";
                     worksheet.Cells[1, 2].Value = "FirstName";
@@ -64,11 +66,10 @@ namespace EmployeePortal.Pages.Registration
                     worksheet.Cells[1, 9].Value = "ProjectCode";
                     worksheet.Cells[1, 10].Value = "ProjectName";
                     worksheet.Cells[1, 11].Value = "PODName";
-                    worksheet.Cells[1, 12].Value = "SatrtDate";
+                    worksheet.Cells[1, 12].Value = "StartDate";
                     worksheet.Cells[1, 13].Value = "EndDate";
                     worksheet.Cells[1, 14].Value = "Location";
                     worksheet.Cells[1, 15].Value = "OffshoreCity";
-                    
                 }
 
                 var rowCount = worksheet.Dimension?.Rows ?? 1; // Get current row count
@@ -90,11 +91,10 @@ namespace EmployeePortal.Pages.Registration
                 worksheet.Cells[rowCount + 1, 13].Value = Employee.EndDate.ToString("yyyy-MM-dd");
                 worksheet.Cells[rowCount + 1, 14].Value = Employee.Location;
                 worksheet.Cells[rowCount + 1, 15].Value = Employee.OffshoreCity;
-                
 
                 // Save the file
                 await package.SaveAsync();
-            }
+            
 
             // Redirect to the employee list page after saving
             return RedirectToPage("/Registration/EmployeeList");
@@ -112,18 +112,13 @@ namespace EmployeePortal.Pages.Registration
 
             if (System.IO.File.Exists(employeeFilePath))
             {
-                using (var package = new ExcelPackage(new FileInfo(employeeFilePath)))
-                {
+                ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+                 var package = new ExcelPackage(new FileInfo(employeeFilePath));
+                
                     var worksheet = package.Workbook.Worksheets["Dropdown"]; // Ensure this matches your worksheet name
                     if (worksheet != null)
                     {
                         var rowCount = worksheet.Dimension.Rows;
-                        
-                            if (rowCount < 2)
-                            {
-                                ModelState.AddModelError("", "Dropdown data file is empty.");
-                                return;
-                            }
 
                         for (int row = 2; row <= rowCount; row++)
                         {
@@ -135,42 +130,48 @@ namespace EmployeePortal.Pages.Registration
                             var Offshore = worksheet.Cells[row, 6]?.Text?.Trim();
 
                             if (!string.IsNullOrWhiteSpace(grade))
-                            {
                                 GradeOptions.Add(new SelectListItem { Value = grade, Text = grade });
-                            }
 
                             if (!string.IsNullOrWhiteSpace(bu))
-                            {
                                 BUOptions.Add(new SelectListItem { Value = bu, Text = bu });
-                            }
-                            if (!string.IsNullOrWhiteSpace(projectcode))
+
+                            if (!string.IsNullOrWhiteSpace(projectcode) && !string.IsNullOrWhiteSpace(projectname))
                             {
                                 ProjectCodeOptions.Add(new SelectListItem { Value = projectcode, Text = projectcode });
+                                projectCodeToNameMapping.Add(projectcode,projectname);
                             }
-                            if (!string.IsNullOrWhiteSpace(projectname))
-                            {
-                                ProjectNameOptions.Add(new SelectListItem { Value = projectname, Text = projectname });
-                            }
+
                             if (!string.IsNullOrWhiteSpace(PODname))
-                            {
                                 PODNameOptions.Add(new SelectListItem { Value = PODname, Text = PODname });
-                            }
-                             if (!string.IsNullOrWhiteSpace(Offshore))
-                            {
+
+                            if (!string.IsNullOrWhiteSpace(Offshore))
                                 OffShoreCityOptions.Add(new SelectListItem { Value = Offshore, Text = Offshore });
-                            }
                         }
                     }
                     else
                     {
-                        ModelState.AddModelError("", "Worksheet 'Data' not found in the dropdown file.");
+                        ModelState.AddModelError("", "Worksheet 'Dropdown' not found in the dropdown file.");
                     }
-                }
+                
             }
             else
             {
                 ModelState.AddModelError("", $"Dropdown file not found at {employeeFilePath}.");
             }
+        }
+
+        // Endpoint to fetch project name by code
+        [HttpGet]
+        public IActionResult OnGetProjectName(string projectCode)
+        {
+            LoadDropdownOptions();
+            if (string.IsNullOrWhiteSpace(projectCode))
+                return new JsonResult("Invalid Project Code");
+
+            if (projectCodeToNameMapping.TryGetValue(projectCode, out var projectName))
+                return new JsonResult(projectName);
+
+            return new JsonResult("Project Code not found");
         }
     }
 }

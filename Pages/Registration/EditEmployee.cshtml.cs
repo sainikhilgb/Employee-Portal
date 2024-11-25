@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using EmployeePortal.Models;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using OfficeOpenXml;
-using System.Numerics;
+
 
 
 namespace EmployeePortal.Pages.Registration
@@ -53,13 +53,13 @@ namespace EmployeePortal.Pages.Registration
                     worksheet.Cells[row, 6].Value = Employee.Grade;
                     worksheet.Cells[row, 7].Value = Employee.BU;
                     worksheet.Cells[row, 8].Value = Employee.DateOfHire.ToShortDateString();
-                    worksheet.Cells[row + 1, 9].Value = Employee.ProjectCode;
-                    worksheet.Cells[row + 1, 10].Value = Employee.ProjectName;
-                    worksheet.Cells[row + 1, 11].Value = Employee.PODName;
-                    worksheet.Cells[row + 1, 12].Value = Employee.StartDate.ToString("yyyy-MM-dd");
-                    worksheet.Cells[row + 1, 13].Value = Employee.EndDate.ToString("yyyy-MM-dd");
-                    worksheet.Cells[row + 1, 14].Value = Employee.Location;
-                    worksheet.Cells[row + 1, 15].Value = Employee.OffshoreCity;
+                    worksheet.Cells[row, 9].Value = Employee.ProjectCode;
+                    worksheet.Cells[row, 10].Value = Employee.ProjectName;
+                    worksheet.Cells[row, 11].Value = Employee.PODName;
+                    worksheet.Cells[row, 12].Value = Employee.StartDate.ToString("yyyy-MM-dd");
+                    worksheet.Cells[row, 13].Value = Employee.EndDate.ToString("yyyy-MM-dd");
+                    worksheet.Cells[row, 14].Value = Employee.Location;
+                    worksheet.Cells[row, 15].Value = Employee.OffshoreCity;
                 }
 
                 package.Save();

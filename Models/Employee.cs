@@ -52,7 +52,7 @@ namespace EmployeePortal.Models
          public string Location {get; set;}
          [DisplayName("Offshore City")]
          public string OffshoreCity {get; set;}
-
+         public int Jan {get; set;}
     }
 
 }
