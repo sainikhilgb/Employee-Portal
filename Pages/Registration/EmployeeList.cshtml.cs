@@ -8,108 +8,142 @@ namespace EmployeePortal.Pages.Registration
 {
     public class EmployeeListModel : PageModel
     {
-        public List<Employee> Employees { get; set; }
-        private string filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "EmployeeData.xlsx");
+        private readonly string employeeFilePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "EmployeeData.xlsx");
 
-        public void OnGet()
+        // Search properties with BindProperty to automatically bind to the query string parameters
+        [BindProperty(SupportsGet = true)]
+        public string SearchTerm { get; set; }  // The term entered in the search field
+
+        [BindProperty(SupportsGet = true)]
+        public string SearchBy { get; set; }  // The field to search by (EmpId, FirstName, LastName, Email)
+
+        public List<Employee> Employees { get; set; } = new List<Employee>();
+
+        // OnGet to load and filter employees based on the search criteria
+        public IActionResult OnGet()
         {
-            // Initialize the list of employees
-            Employees = new List<Employee>();
-
-            // Check if the Excel file exists
-            if (System.IO.File.Exists(filePath))
+            // If SearchBy is not specified, default to 'EmpId'
+            if (string.IsNullOrWhiteSpace(SearchBy))
             {
-                // Load the Excel file using EPPlus
-                using (var package = new ExcelPackage(new FileInfo(filePath)))
+                SearchBy = "EmpId";  // Default search field
+            }
+
+            // Load employees from the Excel file
+            LoadEmployees();
+
+            // If SearchTerm and SearchBy are provided, filter the list of employees
+            if (!string.IsNullOrWhiteSpace(SearchTerm))
+            {
+                Employees = Employees.Where(e =>
                 {
-                    var worksheet = package.Workbook.Worksheets["Employees"];
-
-                    // Check if worksheet is available
-                    if (worksheet != null)
+                    if (SearchBy == "EmpId")
                     {
-                        // Start reading from the second row to skip headers
-                        int row = 2;
-                        while (worksheet.Cells[row, 1].Value != null)
-                        {
-                            // Map Excel cells to Employee properties
-                            Employees.Add(new Employee
-                            {
-                                EmployeeId = int.Parse(worksheet.Cells[row, 1].Value.ToString()),
-                                FirstName = worksheet.Cells[row, 2].Value.ToString(),
-                                LastName = worksheet.Cells[row, 3].Value.ToString(),
-                                Email = worksheet.Cells[row, 4].Value.ToString(),
-                                Phone = worksheet.Cells[row, 5].Value.ToString(),
-                                Grade = worksheet.Cells[row, 6].Value.ToString(),
-                                BU = worksheet.Cells[row, 7].Value.ToString(),
-                                DateOfHire = DateTime.Parse(worksheet.Cells[row, 8].Value.ToString()),
-                                ProjectCode =int.Parse( worksheet.Cells[row, 9].Value.ToString()),
-                                ProjectName = worksheet.Cells[row, 10].Text,
-                                PODName = worksheet.Cells[row, 11].Text,
-                                StartDate = DateTime.Parse(worksheet.Cells[row, 12].Text),
-                                EndDate = DateTime.Parse(worksheet.Cells[row, 13].Text),
-                                Location = worksheet.Cells[row, 14].Text,
-                                OffshoreCity = worksheet.Cells[row, 15].Text,
-                            });
+                        return e.EmpId.ToString().Contains(SearchTerm);
+                    }
+                    else if (SearchBy == "Resource")
+                    {
+                        return e.Resource.Contains(SearchTerm, StringComparison.OrdinalIgnoreCase);
+                    }
+                    else if (SearchBy == "Email")
+                    {
+                        return e.Email.Contains(SearchTerm, StringComparison.OrdinalIgnoreCase);
+                    }
+                    else
+                    {
+                        return true;  // If no valid search field, return all employees
+                    }
+                }).ToList();
+            }
 
-                            row++; // Move to the next row
-                        }
+            return Page();
+        }
+
+        // Method to load employees from the Excel file
+        private void LoadEmployees()
+        {
+            if (System.IO.File.Exists(employeeFilePath))
+            {
+                ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+                var package = new ExcelPackage(new FileInfo(employeeFilePath));
+
+                var worksheet = package.Workbook.Worksheets["Employees"];
+                if (worksheet != null)
+                {
+                    var rowCount = worksheet.Dimension.Rows;
+
+                    for (int row = 2; row <= rowCount; row++)
+                    {
+                        var employee = new Employee
+                        {
+                            Type = worksheet.Cells[row, 1].Text,
+                            Tower = worksheet.Cells[row, 2].Text,
+                            ABLGBL = worksheet.Cells[row, 3].Text,
+                            TLName = worksheet.Cells[row, 4].Text,
+                            GBL_Lead = worksheet.Cells[row, 5].Text,
+                            ProjectCode = ParseInt(worksheet.Cells[row, 6].Text),
+                            ProjectName = worksheet.Cells[row, 7].Text,
+                            PONumber = ParseInt(worksheet.Cells[row, 8].Text),
+                            PODName = worksheet.Cells[row, 9].Text,
+                            AltriaPODOwner = worksheet.Cells[row, 10].Text,
+                            ALCSDirector = worksheet.Cells[row, 11].Text,
+                            GGID = ParseInt(worksheet.Cells[row, 12].Text),
+                            EmpId = ParseInt(worksheet.Cells[row, 13].Text),
+                            Resource = worksheet.Cells[row, 14].Text,
+                            Email = worksheet.Cells[row, 15].Text,
+                            Grade = worksheet.Cells[row, 16].Text,
+                            IsActiveInProject = worksheet.Cells[row, 17].Text,
+                            Gender = worksheet.Cells[row, 18].Text,
+                            Location = worksheet.Cells[row, 19].Text,
+                            OffshoreCity = worksheet.Cells[row, 20].Text,
+                            OffshoreBackup = worksheet.Cells[row, 21].Text,
+                            SL = worksheet.Cells[row, 22].Text,
+                            New = worksheet.Cells[row, 23].Text,
+                            Transition = worksheet.Cells[row, 24].Text,
+                            BU = worksheet.Cells[row, 25].Text,
+                            DateOfHire = ParseDate(worksheet.Cells[row, 26].Text),
+                            StartDate = ParseDate(worksheet.Cells[row, 27].Text),
+                            EndDate = ParseDate(worksheet.Cells[row, 28].Text),
+                            COR = worksheet.Cells[row, 29].Text,
+                            Group = worksheet.Cells[row, 30].Text,
+                            MonthlyPrice = ParseDecemal(worksheet.Cells[row, 31].Text),
+                            AltriaEXP = ParseDecemal(worksheet.Cells[row, 32].Text),
+                            RoleinPOD = worksheet.Cells[row, 33].Text,
+                            OverallExp = worksheet.Cells[row, 34].Text,
+                            Skills = worksheet.Cells[row, 35].Text,
+                            Certificates = worksheet.Cells[row, 36].Text
+
+                        };
+
+                        Employees.Add(employee);
                     }
                 }
             }
         }
 
-        public object GetEmployees()
-        {
-            return Employees;
-        }
-
-
-        
-
-       public async Task<IActionResult> OnPostDeleteAsync(int id)
-{
-    var tempFilePath = Path.Combine(Path.GetTempPath(), "EmployeeData_temp.xlsx");
-    System.IO.File.Copy(filePath, tempFilePath, overwrite: true);
-
-    try
-    {
-        using (var package = new ExcelPackage(new FileInfo(filePath)))
-        {
-            var worksheet = package.Workbook.Worksheets["Employees"];
-            var rowCount = worksheet.Dimension.Rows;
-
-            for (int row = 2; row <= rowCount; row++)
-            {
-                if (int.Parse(worksheet.Cells[row, 1].Text) == id)
+                 private DateTime ParseDate(string dateString)
                 {
-                    worksheet.DeleteRow(row);
-                    await package.SaveAsync();
-                    break;
+                    if (DateTime.TryParse(dateString, out var date))
+                    {
+                        return date;
+                    }
+                    return DateTime.MinValue; // Default value for invalid or missing dates
                 }
-            }
-        }
 
-        // After successful deletion, redirect to the same page to reload the employee list
-        return RedirectToPage("/Registration/EmployeeList");
-    }
-    catch (Exception ex)
-    {
-        // Handle any errors (optional: log the error)
-        ModelState.AddModelError(string.Empty, "An error occurred while deleting the employee.");
-        return Page(); // Stay on the same page to show the error
-    }
-    finally
-    {
-        if (System.IO.File.Exists(tempFilePath))
-        {
-            System.IO.File.Delete(tempFilePath); // Clean up temp file
-        }
+                private int ParseInt(string numberString)
+                {
+                    if (int.TryParse(numberString, out var number))
+                    {
+                        return number;
+                    }
+                    return 0; // Default value for invalid or missing numbers
+                }
+                private decimal ParseDecemal(string numberString)
+                {
+                    if (decimal.TryParse(numberString, out var number))
+                    {
+                        return number;
+                    }
+                    return 0; // Default value for invalid or missing numbers
+                }
     }
 }
-
-
-    
-   }
-
-}
-

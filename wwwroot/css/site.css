@@ -63,7 +63,15 @@ form .input-box a{
   margin:5px;
 }
 
-
+form div .input-box {
+  height: 100px;
+}
+.ProjectStatus {
+  padding:  15px;
+}
+.ProjectStatus .activeYes{
+  padding:  15px;
+}
 .scrollable {
   overflow: auto; /* Enables both horizontal and vertical scrolling */
   

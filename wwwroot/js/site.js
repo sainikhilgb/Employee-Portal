@@ -16,10 +16,13 @@ function getDate() {
 }
 function fetchProjectName() {
     var selectedProjectCode = $("#projectCode").val();
-    console.log(selectedProjectCode)
 
+    var currentPage = window.location.pathname; // Gets the current page path
+    var handlerUrl = currentPage.includes("EditEmployee")
+        ? `?handler=ProjectName&projectCode=${selectedProjectCode}`
+        : `Registration?handler=ProjectName&projectCode=${selectedProjectCode}`;
   $.ajax({
-    url: `Registration?handler=ProjectName&projectCode=${selectedProjectCode}`,
+    url: handlerUrl,
     type: "GET",
     success: function(projectName) {
       $("#projectName").val(projectName);
