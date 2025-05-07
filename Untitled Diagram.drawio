@@ -28,7 +28,7 @@
             <mxPoint x="500" y="380" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="gIBhTJ-z5Mq94y2pDYBU-1" value="User&#xa;---------&#xa;UserId (PK)&#xa;Username&#xa;Email&#xa;PasswordHash&#xa;Role&#xa;CreatedAt&#xa;- [1] Tasks&#xa;- [1] TaskComments" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#0050ef;fontColor=#ffffff;strokeColor=#001DBC;" vertex="1" parent="1">
+        <mxCell id="gIBhTJ-z5Mq94y2pDYBU-1" value="User&lt;br&gt;---------&lt;b&gt;&lt;br&gt;UserId (PK)&lt;/b&gt;&lt;br&gt;Username&lt;br&gt;Email&lt;br&gt;PasswordHash&lt;br&gt;Role&lt;br&gt;CreatedAt&lt;br&gt;- [1] Tasks&lt;br&gt;- [1] TaskComments" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#0050ef;fontColor=#ffffff;strokeColor=#001DBC;" vertex="1" parent="1">
           <mxGeometry x="80" y="190" width="215" height="160" as="geometry" />
         </mxCell>
         <mxCell id="gIBhTJ-z5Mq94y2pDYBU-10" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1" source="gIBhTJ-z5Mq94y2pDYBU-3" target="gIBhTJ-z5Mq94y2pDYBU-4">
@@ -44,10 +44,10 @@
             <mxPoint x="734.6666666666667" y="10" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="gIBhTJ-z5Mq94y2pDYBU-3" value="Tasks&#xa;---------&#xa;TaskId (PK)&#xa;Title&#xa;Description&#xa;AssignedUserId (FK)&#xa;Status&#xa;DueDate&#xa;CreatedAt&#xa;UpdatedAt&#xa;- [*] TaskComments" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#0050ef;fontColor=#ffffff;strokeColor=#001DBC;" vertex="1" parent="1">
+        <mxCell id="gIBhTJ-z5Mq94y2pDYBU-3" value="Tasks&lt;br&gt;---------&lt;br&gt;&lt;b&gt;TaskId (PK)&lt;/b&gt;&lt;br&gt;Title&lt;br&gt;Description&lt;br&gt;AssignedUserId (FK)&lt;br&gt;Status&lt;br&gt;DueDate&lt;br&gt;CreatedAt&lt;br&gt;UpdatedAt&lt;br&gt;- [*] TaskComments" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#0050ef;fontColor=#ffffff;strokeColor=#001DBC;" vertex="1" parent="1">
           <mxGeometry x="660" y="-10" width="150" height="240" as="geometry" />
         </mxCell>
-        <mxCell id="gIBhTJ-z5Mq94y2pDYBU-4" value="TaskComment&#xa;-------------&#xa;CommentId (PK)&#xa;TaskId (FK)&#xa;UserId (FK)&#xa;Comment&#xa;CreatedAt" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#0050ef;fontColor=#ffffff;strokeColor=#001DBC;" vertex="1" parent="1">
+        <mxCell id="gIBhTJ-z5Mq94y2pDYBU-4" value="TaskComment&lt;br&gt;-------------&lt;br&gt;&lt;b&gt;CommentId (PK)&lt;/b&gt;&lt;br&gt;TaskId (FK)&lt;br&gt;UserId (FK)&lt;br&gt;Comment&lt;br&gt;CreatedAt" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#0050ef;fontColor=#ffffff;strokeColor=#001DBC;" vertex="1" parent="1">
           <mxGeometry x="460" y="380" width="120" height="120" as="geometry" />
         </mxCell>
         <mxCell id="gIBhTJ-z5Mq94y2pDYBU-24" value="" style="endArrow=none;dashed=1;html=1;dashPattern=1 3;strokeWidth=2;rounded=0;edgeStyle=orthogonalEdgeStyle;entryX=0;entryY=0;entryDx=0;entryDy=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" edge="1" parent="1">
